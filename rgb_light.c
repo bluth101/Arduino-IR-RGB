@@ -4,6 +4,7 @@
 #define PIN_GREEN 8
 #define PIN_BLUE 9
 #define PIN_IRRCV 7
+#define TINT_SHADE_FACTOR 0.25
 
 int POWER;
 int FADE;
@@ -15,24 +16,21 @@ float BLUE = 255;
 
 void rgb_light(int _r, int _g, int _b) {
 	analogWrite(PIN_RED, _r);
-  	analogWrite(PIN_GREEN, _g);
-  	analogWrite(PIN_BLUE, _b);
+	analogWrite(PIN_GREEN, _g);
+	analogWrite(PIN_BLUE, _b);
 }
 void set_power(int _state) {
-  	if( !_state )
-    	rgb_light(0,0,0);
- 	else
-      	rgb_light(RED, GREEN, BLUE);
+    rgb_light(RED*_state, GREEN*_state, BLUE*_state);
 }
 void shade() {
-  	RED = RED * 0.25;
-  	GREEN = GREEN * 0.25;
-  	BLUE = BLUE * 0.25;
+  	RED = RED * TINT_SHADE_FACTOR;
+  	GREEN = GREEN * TINT_SHADE_FACTOR;
+  	BLUE = BLUE * TINT_SHADE_FACTOR;
 }
 void tint() {
-    RED = RED + (255 + RED) * 0.25;
-    GREEN = GREEN + (255 + GREEN) * 0.25;
-	BLUE = BLUE + (255 + BLUE) * 0.25;
+    RED = RED + (255 + RED) * TINT_SHADE_FACTOR;
+    GREEN = GREEN + (255 + GREEN) * TINT_SHADE_FACTOR;
+	BLUE = BLUE + (255 + BLUE) * TINT_SHADE_FACTOR;
 }
 
 void setup() {
